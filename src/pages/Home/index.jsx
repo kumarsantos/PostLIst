@@ -2,28 +2,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PostCard from "../../components/PostCard";
-import { addListOfPost } from "../../redux/postListSlice";
+import { addListOfPost,toggleFavourite } from "../../redux/postListSlice";
+import { listOfPosts } from "../../constants";
+import './index.css';
 
 export class Home extends Component {
   componentDidMount() {
-    //Async operation like fetch data form API and dispatch to store
-    this.props.addListOfPost([1, 3, 4]);
+    this.props.addListOfPost(listOfPosts);
   }
   render() {
-    const { postsList } = this.props;
+    const { posts:{postsList} } = this.props;
     return (
-      <div>
-        {postsList?.map((post) => (
-          <PostCard key={post.id} />
-        ))}
+      <div className="container">
+     {
+       postsList?.map((post)=><PostCard key={post.id} {...post} toggleFavourite={this.props.toggleFavourite} />)
+      }
       </div>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  postsList: state.postsList,
+  posts: state.posts,
 });
 
-const mapDispatchToProps = { addListOfPost };
+const mapDispatchToProps = { addListOfPost,toggleFavourite};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps,mapDispatchToProps)(Home);
