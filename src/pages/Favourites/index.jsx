@@ -15,6 +15,9 @@ export class Favourites extends Component {
         {postsList?.map(
           (post) => post.isFavourite && <PostCard key={post.id} {...post} toggleFavourite={this.props.toggleFavourite}  />
         )}
+        {
+          postsList.length===0 && <p>No Favourite Post</p>
+        }
       </div>
     );
   }
